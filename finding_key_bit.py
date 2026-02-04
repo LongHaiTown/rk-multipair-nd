@@ -8,7 +8,6 @@ Provides:
 Run with:
     python finding_key_bit.py --cipher-name present80 --input-diff 0x80 --csv-output results.csv
 """
-
 from typing import Callable, Dict, List, Tuple
 import importlib
 import csv
