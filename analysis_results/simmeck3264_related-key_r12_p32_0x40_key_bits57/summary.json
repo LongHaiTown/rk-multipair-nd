@@ -1,0 +1,40 @@
+{
+  "cipher": "simmeck3264",
+  "scenario": "related-key",
+  "rounds": 12,
+  "pairs": 32,
+  "input_difference": "0x40",
+  "input_diff_int": 64,
+  "key_bit": 57,
+  "samples": 20000,
+  "pca_components": 16,
+  "kmeans_k": 2,
+  "use_gpu": true,
+  "results": {
+    "pca_explained_variance_ratio": [
+      0.0009506067144684494,
+      0.0005963207222521305,
+      0.0005913014756515622,
+      0.0005886898143216968,
+      0.0005870538298040628,
+      0.0005865793209522963,
+      0.0005855838535353541,
+      0.0005831925082020462,
+      0.0005820697988383472,
+      0.000581160478759557
+    ],
+    "kmeans_inertia": 138159.28125,
+    "kmeans_silhouette": 0.06891674548387527,
+    "accuracy_vs_true": 0.8918,
+    "adjusted_rand_index": 0.614009664095483
+  },
+  "timing": {
+    "total_seconds": 53.124272108078,
+    "data_generation_seconds": 6.439169883728027
+  },
+  "auto_sweep": {
+    "used": false,
+    "metric": null,
+    "sweep_samples": null
+  }
+}

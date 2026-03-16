@@ -1,0 +1,40 @@
+{
+  "cipher": "lea",
+  "scenario": "related-key",
+  "rounds": 9,
+  "pairs": 1,
+  "input_difference": "0x8000000080",
+  "input_diff_int": 549755814016,
+  "key_bit": 94,
+  "samples": 20000,
+  "pca_components": 16,
+  "kmeans_k": 2,
+  "use_gpu": true,
+  "results": {
+    "pca_explained_variance_ratio": [
+      0.0032206245232373476,
+      0.0032101182732731104,
+      0.003186160698533058,
+      0.003164836671203375,
+      0.003149152733385563,
+      0.0031458588782697916,
+      0.0031256636139005423,
+      0.003119701286777854,
+      0.003100577974691987,
+      0.0030774103943258524
+    ],
+    "kmeans_inertia": 91620.375,
+    "kmeans_silhouette": 0.041319847106933594,
+    "accuracy_vs_true": 0.49625,
+    "adjusted_rand_index": 6.253537317933419e-06
+  },
+  "timing": {
+    "total_seconds": 53.78539681434631,
+    "data_generation_seconds": 4.557845592498779
+  },
+  "auto_sweep": {
+    "used": false,
+    "metric": null,
+    "sweep_samples": null
+  }
+}

@@ -53,7 +53,6 @@ def evaluate_with_statistics(
     - accuracy
     - std
     - z-score, p-value
-    - parameter count
     - runtime throughput
     """
 
@@ -99,15 +98,6 @@ def evaluate_with_statistics(
     print(f"Z-score: {z_score:.2f}  P-value: {p_value:.3e}")
     print("Significant." if p_value < 0.01 else "Not significant.")
 
-    # ----------------------------------------------------
-    # 3. Parameter Count
-    # ----------------------------------------------------
-    total_params, trainable_params, nontrainable_params = count_model_params(model)
-
-    print(f"\n--- Model Parameters ---")
-    print(f"Total params         : {total_params:,}")
-    print(f"Trainable params     : {trainable_params:,}")
-    print(f"Non-trainable params : {nontrainable_params:,}")
 
     # ----------------------------------------------------
     # 4. Runtime Throughput
@@ -136,8 +126,6 @@ def evaluate_with_statistics(
             f.write(f"Std Accuracy:     {std_acc:.6f}\n")
             f.write(f"Z-score:          {z_score:.2f}\n")
             f.write(f"P-value:          {p_value:.4e}\n")
-            f.write(f"\nTotal params:     {total_params:,}\n")
-            f.write(f"Trainable params: {trainable_params:,}\n")
             f.write(f"Throughput:       {throughput:,.0f} samples/sec\n")
 
     return {
@@ -145,7 +133,6 @@ def evaluate_with_statistics(
         "std_acc": std_acc,
         "z_score": z_score,
         "p_value": p_value,
-        "total_params": total_params,
         "throughput": throughput
     }
 

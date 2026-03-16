@@ -1,0 +1,40 @@
+{
+  "cipher": "hight",
+  "scenario": "related-key",
+  "rounds": 11,
+  "pairs": 2,
+  "input_difference": "0x4000000000000000",
+  "input_diff_int": 4611686018427387904,
+  "key_bit": 97,
+  "samples": 20000,
+  "pca_components": 16,
+  "kmeans_k": 2,
+  "use_gpu": true,
+  "results": {
+    "pca_explained_variance_ratio": [
+      0.012958853505551815,
+      0.007566533051431179,
+      0.0035533152986317873,
+      0.0035384781658649445,
+      0.0035228589549660683,
+      0.0034960827324539423,
+      0.003468039445579052,
+      0.003429246135056019,
+      0.00342192011885345,
+      0.003392014652490616
+    ],
+    "kmeans_inertia": 112428.109375,
+    "kmeans_silhouette": 0.17609506845474243,
+    "accuracy_vs_true": 0.2158,
+    "adjusted_rand_index": 0.32305014294413253
+  },
+  "timing": {
+    "total_seconds": 68.9033944606781,
+    "data_generation_seconds": 5.435950517654419
+  },
+  "auto_sweep": {
+    "used": false,
+    "metric": null,
+    "sweep_samples": null
+  }
+}
