@@ -25,9 +25,6 @@ from utils.cipher_utils import integer_to_binary_array, resolve_cipher_module
 from analysis.pca_helper import compute_pca
 from analysis.clustering_helper import kmeans_cluster, compute_silhouette, elbow_inertia
 from analysis.visualization_helper import plot_evr, scatter_2d, plot_elbow_curve, compare_3d_true_vs_pred
-# Sweep for auto-difference detection
-# from sweep_input_diffs import sweep_input_differences
-
 
 def parse_args():
     """Parse command line arguments."""
@@ -60,27 +57,9 @@ def parse_args():
     ap.add_argument(
         "--difference",
         default="",
-        help="Input difference (hex or int, e.g., 0x80 or 128); if empty, auto-sweep to find best"
+        help="Input difference (hex or int, e.g., 0x80 or 128)"
     )
-    ap.add_argument(
-        "--sweep-metric",
-        type=str,
-        choices=["biased_pcs", "max_diff", "silhouette_clusters", "silhouette_true"],
-        default="silhouette_true",
-        help="Metric to rank input differences when auto-sweeping (default: silhouette_true)"
-    )
-    ap.add_argument(
-        "--sweep-samples",
-        type=int,
-        default=10000,
-        help="Number of samples for auto-sweep (default: 10000, smaller than main analysis)"
-    )
-    ap.add_argument(
-        "--max-bits",
-        type=int,
-        default=None,
-        help="Max bit positions to sweep (default: all plaintext bits)"
-    )
+
     ap.add_argument(
         "--key-bit",
         type=int,
@@ -110,21 +89,7 @@ def parse_args():
         default="",
         help="Output directory for results (default: analysis_results/)"
     )
-    ap.add_argument(
-        "--save-sweep",
-        action="store_true",
-        help="Save sweep results to CSV file"
-    )
-    ap.add_argument(
-        "--add-timestamp",
-        action="store_true",
-        help="Add timestamp to output folder name"
-    )
-    ap.add_argument(
-        "--log-file",
-        default="",
-        help="Path to write log output"
-    )
+
     ap.add_argument(
         "--verbose",
         action="store_true",
@@ -140,12 +105,6 @@ def parse_args():
         type=int,
         default=0,
         help="If >0, compute elbow curve for k=2..kmax"
-    )
-    ap.add_argument(
-        "--use-gpu",
-        action="store_true",
-        default=True,
-        help="Use GPU acceleration if available"
     )
     return ap.parse_args()
 
@@ -194,22 +153,6 @@ def main():
     if args.kmeans_k < 2:
         raise ValueError(f"--kmeans-k must be at least 2, got {args.kmeans_k}")
 
-    # Configure logging
-    log_level = logging.DEBUG if args.verbose else logging.INFO
-    log_fmt = "[%(asctime)s] %(levelname)s: %(message)s"
-    if args.log_file:
-        logging.basicConfig(level=log_level, format=log_fmt, handlers=[
-            logging.StreamHandler(),
-            logging.FileHandler(args.log_file, encoding="utf-8")
-        ])
-    else:
-        logging.basicConfig(level=log_level, format=log_fmt)
-
-    logging.info(
-        "Starting PCA/KMeans visualization | cipher=%s scenario=%s rounds=%d samples=%d pairs=%d diff=%s",
-        args.cipher, args.scenario, args.rounds, args.samples, args.pairs, args.difference
-    )
-
     # Load cipher module
     try:
         cipher = resolve_cipher_module(f"cipher.{args.cipher}")
@@ -222,63 +165,7 @@ def main():
     plain_bits = cipher.plain_bits
     key_bits = cipher.key_bits
     encrypt = cipher.encrypt
-    logging.info(
-        "Loaded cipher module cipher.%s | plain_bits=%d key_bits=%d",
-        cipher_name, plain_bits, key_bits
-    )
-
-    # Determine input difference
-    if str(args.difference).strip():
-        try:
-            diff_int = int(args.difference, 0)
-        except Exception:
-            diff_int = int(args.difference)
-        logging.info("Parsed difference '%s' -> int=%d", args.difference, diff_int)
-        diff_token = (args.difference if isinstance(args.difference, str) else str(args.difference)).lower().strip()
-        sweep_results = None
-    else:
-        # Auto-sweep to find best difference
-        logging.info("No --difference provided; running sweep to find best difference...")
-        logging.info("Sweep parameters: samples=%d, metric=%s, max_bits=%s", 
-                     args.sweep_samples, args.sweep_metric, args.max_bits or "all")
-        
-        print(f"🔄 Starting auto-sweep across {args.max_bits or plain_bits} bit positions...")
-        sweep_start = time.time()
-        
-        sweep_results = sweep_input_differences(
-            cipher,
-            nr=args.rounds,
-            pairs=args.pairs,
-            datasize=args.sweep_samples,
-            clusters=2,
-            max_bits=args.max_bits,
-            use_gpu=args.use_gpu,
-            lambda_base=1.0 / (args.pairs * 3 * plain_bits),
-            t0=0.01,
-            results_csv=None,  # We'll save it ourselves if needed
-        )
-        
-        sweep_elapsed = time.time() - sweep_start
-        logging.info("Sweep completed in %.2f seconds", sweep_elapsed)
-        
-        # Select best based on metric
-        def get_metric_value(row):
-            val = row.get(args.sweep_metric)
-            return val if val is not None else float("-inf")
-        
-        best_row = max(sweep_results, key=get_metric_value)
-        diff_int = 1 << best_row['bit_pos']
-        diff_token = best_row['input_diff_hex'].lower()
-        
-        logging.info("✅ Best difference found: %s (bit_pos=%d) with %s=%.6f",
-                     diff_token, best_row['bit_pos'], args.sweep_metric, 
-                     get_metric_value(best_row))
-        print(f"✅ Auto-sweep completed in {sweep_elapsed:.1f}s: Selected {diff_token} based on {args.sweep_metric}")
-        print(f"   Metrics - biased_pcs: {best_row['biased_pcs']}, "
-              f"max_diff: {best_row['max_diff']:.6f}, "
-              f"silhouette_clusters: {best_row['silhouette_clusters']:.6f}")
-
-
+    diff_int = int(args.difference, 0)
     # Build deltas
     delta_plain, delta_key = compute_deltas(diff_int, plain_bits, key_bits)
     # Apply scenario-specific handling
@@ -318,7 +205,6 @@ def main():
         pairs=args.pairs,
         n_samples=args.samples,
         batch_size=batch_size,
-        use_gpu=args.use_gpu,
         to_float32=True,
     )
     X, y = gen[0]
@@ -357,7 +243,7 @@ def main():
         # diff_token computed above; ensure compact token
         diff_token = (diff_token if isinstance(diff_token, str) else str(diff_token)).lower().strip()
     except Exception:
-        diff_token = str(diff_int)
+        diff_token = str(args.difference).lower().strip() or "diff0"
     
     # Include key-bit in folder name for related-key scenario when explicitly provided
     key_suffix = ""
@@ -365,9 +251,6 @@ def main():
         key_suffix = f"_key_bits{args.key_bit}"
 
     run_folder = f"{cipher_name}_{args.scenario}_r{args.rounds}_p{args.pairs}_{diff_token}{key_suffix}"
-    if args.add_timestamp:
-        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        run_folder = f"{run_folder}_{timestamp}"
 
     # Decide base output directory
     base_out = args.out if args.out else Path(__file__).parent / "analysis_results"
@@ -432,56 +315,11 @@ def main():
         np.save(run_out_dir / "eigenvalue_ratios.npy", evr)
         np.save(run_out_dir / "dataset_labels.npy", y.astype(np.int32))
         np.save(run_out_dir / "kmeans_labels.npy", labels.astype(np.int32))
-        
-        # Save sweep results if auto-sweep was used
-        if sweep_results and args.save_sweep:
-            import csv
-            sweep_csv = run_out_dir / "sweep_results.csv"
-            with open(sweep_csv, 'w', newline='', encoding='utf-8') as f:
-                writer = csv.DictWriter(f, fieldnames=['bit_pos', 'input_diff_hex', 'biased_pcs', 
-                                                       'max_diff', 'silhouette_clusters', 'silhouette_true', 'elapsed_sec'])
-                writer.writeheader()
-                writer.writerows(sweep_results)
-            logging.info("Saved sweep results: %s", sweep_csv)
-        
         # Save summary report
         total_elapsed = time.time() - start_time
-        summary = {
-            "cipher": cipher_name,
-            "scenario": args.scenario,
-            "rounds": args.rounds,
-            "pairs": args.pairs,
-            "input_difference": diff_token,
-            "input_diff_int": diff_int,
-            "key_bit": args.key_bit if args.key_bit >= 0 else None,
-            "samples": args.samples,
-            "pca_components": args.pca_components,
-            "kmeans_k": args.kmeans_k,
-            "use_gpu": args.use_gpu,
-            "results": {
-                "pca_explained_variance_ratio": evr.tolist()[:10],
-                "kmeans_inertia": float(inertia),
-                "kmeans_silhouette": float(sil) if not np.isnan(sil) else None,
-                "accuracy_vs_true": float(accuracy) if not np.isnan(accuracy) else None,
-                "adjusted_rand_index": float(ari),
-            },
-            "timing": {
-                "total_seconds": total_elapsed,
-                "data_generation_seconds": gen_elapsed,
-            },
-            "auto_sweep": {
-                "used": sweep_results is not None,
-                "metric": args.sweep_metric if sweep_results else None,
-                "sweep_samples": args.sweep_samples if sweep_results else None,
-            }
-        }
+
         
-        summary_json = run_out_dir / "summary.json"
-        with open(summary_json, 'w', encoding='utf-8') as f:
-            json.dump(summary, f, indent=2, ensure_ascii=False)
-        logging.info("Saved summary report: %s", summary_json)
-        
-        print(f"\n✅ Saved outputs to: {run_out_dir}")
+        print(f"\nSaved outputs to: {run_out_dir}")
         print(f"   Total time: {total_elapsed:.1f}s")
         logging.info("Total execution time: %.2f seconds", total_elapsed)
 
@@ -489,33 +327,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-# Full featured run với tất cả cải tiến:
-#python visualize_dataset.py --cipher present80 --rounds 7 --pairs 8 \
-#    --samples 100000 --plot --save-sweep --add-timestamp --verbose
-
-# Quick analysis với sweep nhẹ:
-#python visualize_dataset.py --cipher present80 --rounds 7 --pairs 8 \
-#    --sweep-samples 3000 --samples 50000 --plot --save-sweep
-
-
-#Scenario 1: Research/Paper (Best quality)
-#python visualize_dataset.py \
-#   --sweep-metric silhouette_true \
-#    --sweep-samples 10000 \
-#    --samples 100000 \
-#    --plot --save-sweep
-
-#Scenario 2: Quick experiments
-#python visualize_dataset.py \
-#    --sweep-metric biased_pcs \
-#    --sweep-samples 5000 \
-#    --samples 50000 \
-#    --plot
-
-#Scenario 3: Comprehensive analysis (sweep all metrics)
-# Sweep và lưu results
-#python visualize_dataset.py \
-#   --sweep-metric silhouette_true \
-#    --save-sweep \
-#    --samples 100000
-# Sau đó phân tích sweep_results.csv để compare các metrics

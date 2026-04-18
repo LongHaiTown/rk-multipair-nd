@@ -273,7 +273,6 @@ def main():
                 delta_key = np.zeros(key_bits, dtype=np.uint8)
                 print("[info] No delta-key override provided; using delta_key = 0 (no related-key).")
     else:
-        # Backward-compatible path using --input-diff and delta-key overrides
         input_difference = int(args.input_diff, 16)
         if args.delta_key_bit is not None:
             if args.delta_key_bit < 0 or args.delta_key_bit >= key_bits:

@@ -172,7 +172,7 @@ def select_best_delta_key(
     best_bit = -1
     all_scores = {}
 
-    print("🔍 Searching for best delta_key (Hamming weight = 1):")
+    print("Searching for best delta_key (Hamming weight = 1):")
 
     for bit in range(key_bits):
         delta_key = np.zeros(key_bits, dtype=cp.uint8)
@@ -201,7 +201,7 @@ def select_best_delta_key(
             best_score = score
             best_bit = bit
 
-    print(f"\n✅ Best delta_key bit: {best_bit} with score = {best_score:.5f}")
+    print(f"\nBest delta_key bit: {best_bit} with score = {best_score:.5f}")
     return best_bit, best_score, all_scores
 
 
@@ -251,11 +251,13 @@ def train_by_chunks(
     for epoch in range(epochs):
         print(f"\n========== Global Epoch {epoch+1}/{epochs} ==========")
 
-        # ---- LR scheduler (epoch-level) ----
         for cb in callbacks:
             if isinstance(cb, LearningRateScheduler):
                 lr = cb.schedule(epoch)
-                tf.keras.backend.set_value(model.optimizer.learning_rate, lr)
+                if hasattr(model.optimizer.learning_rate, "assign"):
+                    model.optimizer.learning_rate.assign(lr)
+                else:
+                    model.optimizer.learning_rate = lr
                 print(f"[LR] set to {lr:.6e}")
 
         # ---- training chunks ----

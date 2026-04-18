@@ -89,14 +89,6 @@ def _parse_delta_key_from_hex(hex_str: str, key_bits: int) -> np.ndarray:
     return arr
 
 
-def _split_combined_difference(diff_int: int, plain_bits: int, key_bits: int):
-    """Split combined integer into (plain_int, delta_plain_bits, delta_key_bits)."""
-    bits = _int_to_bits(diff_int, plain_bits + key_bits)
-    d_plain = bits[:plain_bits]
-    d_key = bits[plain_bits:]
-    plain_int = int(''.join(str(x) for x in d_plain.tolist()), 2)
-    return plain_int, d_plain, d_key
-
 
 def build_or_load_initial_model(pairs, plain_bits, init_model_path=None, init_weights_path=None, lr=1e-3, use_no_eca=False):
     """
@@ -130,102 +122,6 @@ def build_or_load_initial_model(pairs, plain_bits, init_model_path=None, init_we
     
     return model
 
-
-# def train_by_chunks(
-#     model,
-#     encrypt,
-#     plain_bits,
-#     key_bits,
-#     n_round,
-#     pairs,
-#     delta_plain,
-#     delta_key,
-#     total_samples,
-#     chunk_size,
-#     batch_size,
-#     epochs,
-#     val_samples=1_000_000,
-#     patience=3,
-#     callbacks=None,
-# ):
-
-#     n_chunks = (total_samples + chunk_size - 1) // chunk_size
-
-#     from types import SimpleNamespace
-#     history_acc = {}
-
-#     # fixed validation generator
-#     val_gen = NDCMultiPairGenerator(
-#         encrypt,
-#         plain_bits,
-#         key_bits,
-#         n_round,
-#         delta_state=delta_plain,
-#         delta_key=delta_key,
-#         n_samples=val_samples,
-#         batch_size=batch_size,
-#         pairs=pairs,
-#     )
-
-#     best_val_loss = float("inf")
-#     wait = 0
-
-#     for epoch in range(epochs):
-#         print(f"\n========== Global Epoch {epoch+1}/{epochs} ==========")
-
-#         # ---- training ----
-#         for c in range(n_chunks):
-#             print(f"--- Chunk {c+1}/{n_chunks} ---")
-
-#             gen_chunk = NDCMultiPairGenerator(
-#                 encrypt,
-#                 plain_bits,
-#                 key_bits,
-#                 n_round,
-#                 delta_state=delta_plain,
-#                 delta_key=delta_key,
-#                 n_samples=chunk_size,
-#                 batch_size=batch_size,
-#                 pairs=pairs,
-#                 start_idx=c * chunk_size,
-#             )
-
-#             h = model.fit(
-#                 gen_chunk,
-#                 epochs=1,
-#                 callbacks=callbacks,
-#                 verbose=1,
-#             )
-
-#             if hasattr(h, "history"):
-#                 for k, v in h.history.items():
-#                     history_acc.setdefault(k, []).extend(v)
-
-#         # ---- validation ----
-#         val_loss, val_acc = model.evaluate(val_gen, verbose=0)
-#         print(f"[Validation] loss={val_loss:.5f}, acc={val_acc:.5f}")
-
-#         history_acc.setdefault("val_loss", []).append(val_loss)
-#         history_acc.setdefault("val_acc", []).append(val_acc)
-
-#         # ---- early stopping ----
-#         if val_loss < best_val_loss:
-#             best_val_loss = val_loss
-#             wait = 0
-#             print("✓ Validation improved")
-#         else:
-#             wait += 1
-#             print(f"✗ No improvement (patience {wait}/{patience})")
-
-#         if wait >= patience:
-#             print("Early stopping triggered (global epoch level)")
-#             break
-
-#     return SimpleNamespace(
-#         history=history_acc,
-#         epochs_completed=epoch + 1,
-#         n_chunks=n_chunks,
-#     )
 
 def run_stage_training(args):
     # Import cipher dynamically

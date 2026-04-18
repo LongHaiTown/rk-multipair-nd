@@ -7,10 +7,3 @@ ml_dtypes>0.5
 # Utilities
 tqdm>=4.65
 
-# GPU acceleration (CuPy)
-# IMPORTANT: Select ONE CuPy build that matches your CUDA version.
-# On Windows, prefer installing a CUDA-specific wheel instead of the generic 'cupy' package.
-# Examples (install manually, NOT via this file):
-#   pip install cupy-cuda12x   # for CUDA 12.x
-#   pip install cupy-cuda11x   # for CUDA 11.x
-# See: https://docs.cupy.dev/en/stable/install.html

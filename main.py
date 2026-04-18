@@ -42,37 +42,11 @@ def parse_args():
         default=int(os.getenv("PAIRS", 8)),
         help="Number of plaintext-ciphertext pairs per sample (default: 8)"
     )
-    # Optional: choose input_difference from sweep CSV
     parser.add_argument(
         "--input-diff",
         type=str,
         default=os.getenv("INPUT_DIFF", "0x00000080"),
         help="Input difference hex (e.g., 0x80). Ignored when --sweep-csv is provided."
-    )
-    parser.add_argument(
-        "--sweep-csv",
-        type=str,
-        default=os.getenv("SWEEP_CSV", None),
-        help="Path to sweep_results.csv to auto-pick best input difference."
-    )
-    # Multi-round sweep parent (directories with nr<round>/sweep_results.csv)
-    parser.add_argument(
-        "--sweep-parent",
-        type=str,
-        default=os.getenv("SWEEP_PARENT", None),
-        help="Path to a parent sweep directory containing per-round subfolders (nr<round>)."
-    )
-    parser.add_argument(
-        "--auto-latest-sweep",
-        action="store_true",
-        help="Use the latest sweep run under differences_findings/logs/<cipher> (multi-round)."
-    )
-    parser.add_argument(
-        "--diff-metric",
-        type=str,
-        choices=["biased_pcs", "max_diff", "silhouette_clusters", "silhouette_true"],
-        default=os.getenv("DIFF_METRIC", "biased_pcs"),
-        help="Metric to rank input differences when --sweep-csv is provided."
     )
     parser.add_argument(
         "--delta-key-bit",
@@ -86,11 +60,7 @@ def parse_args():
         default=os.getenv("DIFFERENCE", None),
         help="Optional hex/int difference. If bit-length > plain_bits or --combined-diff set, treated as concatenated (plain_bits + key_bits)."
     )
-    parser.add_argument(
-        "--combined-diff",
-        action="store_true",
-        help="Force --difference to be interpreted as combined (plain_bits + key_bits)."
-    )
+
     parser.add_argument(
         "--chunk-size",
         type=int,
@@ -114,129 +84,6 @@ def import_cipher_module(cipher_name: str):
         raise RuntimeError(f"Failed to import cipher module 'cipher.{cipher_name}': {e}")
 
 
-def _metric_value(row: dict, key: str) -> float:
-    v = row.get(key, "")
-    if v in ("", None):
-        return float("-inf")
-    try:
-        return float(v)
-    except Exception:
-        return float("-inf")
-
-
-def pick_best_input_diff_from_csv(csv_path: Path, metric: str) -> Tuple[int, int]:
-    with open(csv_path, "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        rows = list(reader)
-    if not rows:
-        raise ValueError(f"No rows found in {csv_path}")
-    best = max(rows, key=lambda r: _metric_value(r, metric))
-    hex_str = best.get("input_diff_hex", "0x0").strip()
-    bit_pos = int(best.get("bit_pos", "-1"))
-    input_diff_int = int(hex_str, 16)
-    return bit_pos, input_diff_int
-
-
-def _get_best_row_from_csv(csv_path: Path, metric: str):
-    with open(csv_path, "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        rows = list(reader)
-    if not rows:
-        raise ValueError(f"No rows found in {csv_path}")
-    best = max(rows, key=lambda r: _metric_value(r, metric))
-    return best, _metric_value(best, metric)
-
-
-def _find_latest_sweep_parent(cipher_name: str) -> Path:
-    base = Path("differences_findings") / "logs" / cipher_name
-    if not base.exists():
-        raise FileNotFoundError(f"Base sweep directory not found: {base}")
-    # Timestamped directories sort lexicographically in chronological order
-    candidates = [p for p in base.iterdir() if p.is_dir()]
-    if not candidates:
-        raise FileNotFoundError(f"No sweep runs found under: {base}")
-    latest = sorted(candidates, key=lambda p: p.name)[-1]
-    return latest
-
-
-def pick_best_round_and_input_diff(parent_dir: Path, metric: str) -> Tuple[int, int, int, Path]:
-    """
-    Aggregate per-round sweep CSVs under parent_dir to choose the best round and input difference.
-    Returns (best_nr, best_bit_pos, best_input_diff_int, csv_path_for_best_round)
-    """
-    # Discover per-round subfolders
-    subdirs = [d for d in parent_dir.iterdir() if d.is_dir() and d.name.lower().startswith("nr")]
-
-    # If no subdirs, treat parent as a single-round sweep
-    if not subdirs:
-        csv_path = parent_dir / "sweep_results.csv"
-        if not csv_path.exists():
-            raise FileNotFoundError(f"sweep_results.csv not found in {parent_dir}")
-        # Read nr from config.json
-        cfg_path = parent_dir / "config.json"
-        if not cfg_path.exists():
-            raise FileNotFoundError(f"config.json not found in {parent_dir}")
-        with open(cfg_path, "r", encoding="utf-8") as f:
-            cfg = json.load(f)
-        best_row, _ = _get_best_row_from_csv(csv_path, metric)
-        bit_pos = int(best_row.get("bit_pos", "-1"))
-        input_diff_int = int(best_row.get("input_diff_hex", "0x0"), 16)
-        return int(cfg.get("nr", -1)), bit_pos, input_diff_int, csv_path
-
-    # Iterate per-round subfolders
-    global_best_val = float("-inf")
-    best_nr = None
-    best_bit_pos = None
-    best_input_diff = None
-    best_csv_path = None
-
-    for sd in subdirs:
-        # Determine rounds from folder name or config.json as fallback
-        nr_val = None
-        name = sd.name.lower()
-        if name.startswith("nr"):
-            try:
-                nr_val = int(name[2:])
-            except Exception:
-                nr_val = None
-        if nr_val is None:
-            cfgp = sd / "config.json"
-            if cfgp.exists():
-                with open(cfgp, "r", encoding="utf-8") as f:
-                    cfg = json.load(f)
-                    nr_val = int(cfg.get("nr", -1))
-
-        csv_path = sd / "sweep_results.csv"
-        if not csv_path.exists():
-            continue
-
-        try:
-            row, val = _get_best_row_from_csv(csv_path, metric)
-        except Exception:
-            continue
-
-        if val > global_best_val:
-            global_best_val = val
-            best_nr = nr_val
-            best_bit_pos = int(row.get("bit_pos", "-1"))
-            best_input_diff = int(row.get("input_diff_hex", "0x0"), 16)
-            best_csv_path = csv_path
-
-    if best_nr is None:
-        raise ValueError(f"No valid sweep CSVs found under {parent_dir}")
-
-    return best_nr, best_bit_pos, best_input_diff, best_csv_path
-
-
-def choose_input_difference(args) -> int:
-    if args.sweep_csv:
-        bit_pos_best, input_difference = pick_best_input_diff_from_csv(Path(args.sweep_csv), args.diff_metric)
-        print(
-            f"[auto] Picked best input difference from sweep ({args.diff_metric}): "
-            f"bit_pos={bit_pos_best}, hex=0x{input_difference:016X}"
-        )
-        return input_difference
-    return int(str(args.input_diff), 16)
 
 
 def _int_to_bits(int_val: int, num_bits: int) -> np.ndarray:
@@ -289,118 +136,6 @@ def make_generators(encrypt, plain_bits: int, key_bits: int, n_round: int, pairs
         use_gpu=True,
     )
     return gen, gen_val
-
-
-# def build_and_train_model(gen, gen_val, pairs: int, plain_bits: int, cb, epochs: int, batch_size: int):
-#     X_train, Y_train = gen[0]
-#     print("Sample training data shapes:", X_train.shape, Y_train.shape)
-#     model = make_model_inception(pairs=pairs, plain_bits=plain_bits)
-#     optimizer = tf.keras.optimizers.Adam(amsgrad=True)
-#     model.compile(optimizer=optimizer, loss='mse', metrics=['acc'])
-#     history = model.fit(
-#         gen,
-#         epochs=epochs,
-#         validation_data=gen_val,
-#         batch_size=batch_size,
-#         callbacks=cb,
-#         verbose=True,
-#     )
-#     return model, history
-# def train_by_chunks(
-#     model,
-#     encrypt,
-#     plain_bits,
-#     key_bits,
-#     n_round,
-#     pairs,
-#     delta_plain,
-#     delta_key,
-#     total_samples,
-#     chunk_size,
-#     batch_size,
-#     epochs,
-#     val_samples=1_000_000,
-#     patience=3,
-#     callbacks=None,
-# ):
-
-#     n_chunks = (total_samples + chunk_size - 1) // chunk_size
-
-#     from types import SimpleNamespace
-#     history_acc = {}
-
-#     # fixed validation generator
-#     val_gen = NDCMultiPairGenerator(
-#         encrypt,
-#         plain_bits,
-#         key_bits,
-#         n_round,
-#         delta_state=delta_plain,
-#         delta_key=delta_key,
-#         n_samples=val_samples,
-#         batch_size=batch_size,
-#         pairs=pairs,
-#     )
-
-#     best_val_loss = float("inf")
-#     wait = 0
-
-#     for epoch in range(epochs):
-#         print(f"\n========== Global Epoch {epoch+1}/{epochs} ==========")
-
-#         # ---- training ----
-#         for c in range(n_chunks):
-#             print(f"--- Chunk {c+1}/{n_chunks} ---")
-
-#             gen_chunk = NDCMultiPairGenerator(
-#                 encrypt,
-#                 plain_bits,
-#                 key_bits,
-#                 n_round,
-#                 delta_state=delta_plain,
-#                 delta_key=delta_key,
-#                 n_samples=chunk_size,
-#                 batch_size=batch_size,
-#                 pairs=pairs,
-#                 start_idx=c * chunk_size,
-#             )
-
-#             h = model.fit(
-#                 gen_chunk,
-#                 epochs=1,
-#                 callbacks=callbacks,
-#                 verbose=1,
-#             )
-
-#             if hasattr(h, "history"):
-#                 for k, v in h.history.items():
-#                     history_acc.setdefault(k, []).extend(v)
-
-#         # ---- validation ----
-#         val_loss, val_acc = model.evaluate(val_gen, verbose=0)
-#         print(f"[Validation] loss={val_loss:.5f}, acc={val_acc:.5f}")
-
-#         history_acc.setdefault("val_loss", []).append(val_loss)
-#         history_acc.setdefault("val_acc", []).append(val_acc)
-
-#         # ---- early stopping ----
-#         if val_loss < best_val_loss:
-#             best_val_loss = val_loss
-#             wait = 0
-#             print("✓ Validation improved")
-#         else:
-#             wait += 1
-#             print(f"✗ No improvement (patience {wait}/{patience})")
-
-#         if wait >= patience:
-#             print("Early stopping triggered (global epoch level)")
-#             break
-
-#     return SimpleNamespace(
-#         history=history_acc,
-#         epochs_completed=epoch + 1,
-#         n_chunks=n_chunks,
-#     )
 
 
 def save_artifacts(model, history, cipher_name: str, n_round: int, run_id: str):
@@ -466,99 +201,16 @@ def run():
     # Callbacks
     cb = update_checkpoint_in_callbacks(callbacks, rounds=n_round, cipher_name=cipher_name, run_id=run_id)
 
-    # === Input difference handling (extended) ===
-    input_difference = None
-    combined_from_user = False
-    user_delta_plain = None
-    user_delta_key = None
+    delta_plain= args.difference
+    mb = int(args.delta_key_bit)
+    if mb < 0 or mb >= key_bits:
+        raise ValueError(f"--delta-key-bit {mb} out of range (0..{key_bits-1})")
+    
+    delta_plain = integer_to_binary_array(int(args.input_diff, 16), plain_bits)
+    delta_key = np.zeros(key_bits, dtype=np.uint8)
+    delta_key[mb] = 1
 
-    if args.difference:
-        # Direct difference provided
-        try:
-            user_diff_int = int(args.difference, 0)
-        except Exception:
-            user_diff_int = int(args.difference)
-        if args.combined_diff or user_diff_int.bit_length() > plain_bits:
-            combined_from_user = True
-            input_difference, d_plain_bits, d_key_bits = _split_combined_difference(
-                user_diff_int, plain_bits, key_bits
-            )
-            # Shape to (plain_bits,) & (key_bits,)
-            user_delta_plain = d_plain_bits.astype(np.uint8)
-            user_delta_key = d_key_bits.astype(np.uint8)
-            print(f"[difference] Using combined difference (plain+key): 0x{user_diff_int:X}")
-            print(f"            delta_plain HW={int(user_delta_plain.sum())} bits={[i for i,v in enumerate(user_delta_plain) if v]}")
-            print(f"            delta_key  HW={int(user_delta_key.sum())} bits={[i for i,v in enumerate(user_delta_key) if v]}")
-        else:
-            input_difference = user_diff_int
-            print(f"[difference] Using provided plain input difference: 0x{input_difference:X}")
-    else:
-        # Existing sweep / manual logic
-        if args.sweep_parent or args.auto_latest_sweep:
-            parent_dir = Path(args.sweep_parent) if args.sweep_parent else _find_latest_sweep_parent(cipher_name)
-            best_nr, best_bit_pos, best_input_difference, best_csv = pick_best_round_and_input_diff(parent_dir, args.diff_metric)
-            print(
-                f"[auto] Picked best round and input difference from multi-sweep ({args.diff_metric}): "
-                f"nr={best_nr}, bit_pos={best_bit_pos}, hex=0x{best_input_difference:016X}\n"
-                f"       source CSV: {best_csv}"
-            )
-            n_round = int(best_nr)
-            input_difference = int(best_input_difference)
-        else:
-            input_difference = choose_input_difference(args)
-
-    # === Delta-key determination ===
-    if combined_from_user:
-        # Build arrays from user supplied combined diff
-        delta_plain = user_delta_plain
-        delta_key = user_delta_key
-        # Override delta-key if --delta-key-bit passed
-        if args.delta_key_bit is not None:
-            mb = int(args.delta_key_bit)
-            if mb < 0 or mb >= key_bits:
-                raise ValueError(f"--delta-key-bit {mb} out of range (0..{key_bits-1})")
-            delta_key = np.zeros(key_bits, dtype=np.uint8)
-            delta_key[mb] = 1
-            print(f"[override] Replacing combined delta_key with manual bit={mb}")
-        best_bit = [i for i,v in enumerate(delta_key) if v]
-        best_score = None
-    else:
-        if args.delta_key_bit is not None:
-            manual_bit = int(args.delta_key_bit)
-            if manual_bit < 0 or manual_bit >= key_bits:
-                raise ValueError(f"--delta-key-bit {manual_bit} out of range (0..{key_bits-1})")
-            delta_plain = integer_to_binary_array(input_difference, plain_bits)
-            delta_key = np.zeros(key_bits, dtype=np.uint8)
-            delta_key[manual_bit] = 1
-            best_bit = manual_bit
-            best_score = None
-            print(f"[manual] Using provided delta key bit: {best_bit}")
-        else:
-            best_bit, best_score, delta_plain, delta_key = choose_delta_key(
-                encrypt, plain_bits, key_bits, n_round, pairs, input_difference
-            )
-
-    # Ensure delta arrays are 1D uint8 for generator
-    if delta_plain.ndim > 1:
-        delta_plain = delta_plain.reshape(-1)
-    if delta_key.ndim > 1:
-        delta_key = delta_key.reshape(-1)
-
-    # # Data generators
-    # gen, gen_val = make_generators(
-    #     encrypt, plain_bits, key_bits, n_round, pairs,
-    #     delta_plain, delta_key, NUM_SAMPLES_TRAIN, NUM_SAMPLES_TEST,
-    #     BATCH_SIZE, VAL_BATCH_SIZE,
-    # )
-
-    # # Train
-    # model, history = build_and_train_model(
-    #     gen, gen_val, pairs, plain_bits, cb, EPOCHS, BATCH_SIZE
-    # )
-
-    TOTAL_SAMPLES = NUM_SAMPLES_TRAIN
     CHUNK_SIZE    = int(args.chunk_size)
-    EPOCHS_PER_CHUNK = 1
 
     model = make_model_inception(pairs=pairs, plain_bits=plain_bits)
     optimizer = tf.keras.optimizers.Adam(amsgrad=True)
@@ -584,7 +236,7 @@ def run():
     save_artifacts(model, history, cipher_name, n_round, run_id)
 
     # Evaluate
-    evaluate_model(model, encrypt, plain_bits, key_bits, input_difference, delta_key, pairs, n_round)
+    evaluate_model(model, encrypt, plain_bits, key_bits, delta_plain, delta_key, pairs, n_round)
 
 
 # python finding_input.py --cipher-module cipher.present80 --nr 7 --pairs 1 --datasize 50000 --clusters 27 --max-bits 64

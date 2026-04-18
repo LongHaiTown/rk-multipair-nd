@@ -162,7 +162,7 @@ def sweep_delta_keys_by_round(
 
     for r in range(start_round, max_rounds + 1):
         if verbose:
-            print(f"🔎 Round {r}: searching best delta-key bit (input_diff=0x{input_difference:X})...")
+            print(f"Round {r}: searching best delta-key bit (input_diff=0x{input_difference:X})...")
 
         best_bit, best_score, all_scores = select_best_delta_key(
             encryption_function=encryption_function,
@@ -188,7 +188,7 @@ def sweep_delta_keys_by_round(
 
         if best_score is None or best_score < stop_score_threshold:
             if verbose:
-                print(f"⛔ Stopping: best_score {best_score:.5f} < threshold {stop_score_threshold:.5f}")
+                print(f"Stopping: best_score {best_score:.5f} < threshold {stop_score_threshold:.5f}")
             break
 
     return results
