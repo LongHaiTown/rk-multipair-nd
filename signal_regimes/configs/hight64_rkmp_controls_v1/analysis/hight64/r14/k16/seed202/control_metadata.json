@@ -1,0 +1,374 @@
+{
+  "main": {
+    "status": "completed",
+    "config_hash": "f2c2f34b75e122ec3096287de9676adc0757a49cff6646ffd2c490ef2c2b3eac",
+    "outputs": [
+      "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/D1_structured.npy",
+      "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/D0_null.npy",
+      "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/D1_labels.npy",
+      "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/D0_labels.npy"
+    ],
+    "result": {
+      "D1": {
+        "feature_path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/D1_structured.npy",
+        "label_path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/D1_labels.npy",
+        "shape": [
+          10000,
+          16,
+          192
+        ],
+        "dtype": "uint8",
+        "samples_written": 10000,
+        "validation_batches": [
+          {
+            "structured_plaintext_relation": true,
+            "related_key_relation": true,
+            "shared_key_within_group": true,
+            "labels_binary": true,
+            "delta_key_width_valid": true,
+            "delta_state_width_valid": true,
+            "all_passed": true,
+            "batch_index": 0,
+            "control_type": "D1_vs_D0",
+            "control_replica": 0,
+            "source_round": 14,
+            "source_k": 16,
+            "source_seed": 202
+          },
+          {
+            "structured_plaintext_relation": true,
+            "related_key_relation": true,
+            "shared_key_within_group": true,
+            "labels_binary": true,
+            "delta_key_width_valid": true,
+            "delta_state_width_valid": true,
+            "all_passed": true,
+            "batch_index": 1,
+            "control_type": "D1_vs_D0",
+            "control_replica": 0,
+            "source_round": 14,
+            "source_k": 16,
+            "source_seed": 202
+          }
+        ],
+        "all_passed": true,
+        "metadata": {
+          "control_type": "D1_vs_D0",
+          "control_replica": 0,
+          "source_round": 14,
+          "source_k": 16,
+          "source_seed": 202
+        }
+      },
+      "D0": {
+        "feature_path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/D0_null.npy",
+        "label_path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/D0_labels.npy",
+        "shape": [
+          10000,
+          16,
+          192
+        ],
+        "dtype": "uint8",
+        "samples_written": 10000,
+        "validation_batches": [
+          {
+            "structured_plaintext_relation": true,
+            "related_key_relation": true,
+            "shared_key_within_group": true,
+            "labels_binary": true,
+            "delta_key_width_valid": true,
+            "delta_state_width_valid": true,
+            "all_passed": true,
+            "batch_index": 0,
+            "control_type": "D1_vs_D0",
+            "control_replica": 1,
+            "source_round": 14,
+            "source_k": 16,
+            "source_seed": 202
+          },
+          {
+            "structured_plaintext_relation": true,
+            "related_key_relation": true,
+            "shared_key_within_group": true,
+            "labels_binary": true,
+            "delta_key_width_valid": true,
+            "delta_state_width_valid": true,
+            "all_passed": true,
+            "batch_index": 1,
+            "control_type": "D1_vs_D0",
+            "control_replica": 1,
+            "source_round": 14,
+            "source_k": 16,
+            "source_seed": 202
+          }
+        ],
+        "all_passed": true,
+        "metadata": {
+          "control_type": "D1_vs_D0",
+          "control_replica": 1,
+          "source_round": 14,
+          "source_k": 16,
+          "source_seed": 202
+        }
+      }
+    },
+    "seconds": 5.544938,
+    "completed_at_utc": "2026-07-17T13:24:54.108526+00:00",
+    "_status": "completed"
+  },
+  "D0_vs_D0": {
+    "status": "completed",
+    "config_hash": "825f6559d1f3419fef84a7ab0d47607905b7aa5a9e6db05366ce64cf2597c806",
+    "outputs": [
+      "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/controls/D0_vs_D0/D0_control_a.npy",
+      "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/controls/D0_vs_D0/D0_control_b.npy"
+    ],
+    "result": {
+      "A": {
+        "feature_path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/controls/D0_vs_D0/D0_control_a.npy",
+        "label_path": null,
+        "shape": [
+          10000,
+          16,
+          192
+        ],
+        "dtype": "uint8",
+        "samples_written": 10000,
+        "validation_batches": [
+          {
+            "structured_plaintext_relation": true,
+            "related_key_relation": true,
+            "shared_key_within_group": true,
+            "labels_binary": true,
+            "delta_key_width_valid": true,
+            "delta_state_width_valid": true,
+            "all_passed": true,
+            "batch_index": 0,
+            "control_type": "D0_vs_D0",
+            "control_replica": 0,
+            "source_round": 14,
+            "source_k": 16,
+            "source_seed": 202
+          },
+          {
+            "structured_plaintext_relation": true,
+            "related_key_relation": true,
+            "shared_key_within_group": true,
+            "labels_binary": true,
+            "delta_key_width_valid": true,
+            "delta_state_width_valid": true,
+            "all_passed": true,
+            "batch_index": 1,
+            "control_type": "D0_vs_D0",
+            "control_replica": 0,
+            "source_round": 14,
+            "source_k": 16,
+            "source_seed": 202
+          }
+        ],
+        "all_passed": true,
+        "metadata": {
+          "control_type": "D0_vs_D0",
+          "control_replica": 0,
+          "source_round": 14,
+          "source_k": 16,
+          "source_seed": 202
+        }
+      },
+      "B": {
+        "feature_path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/controls/D0_vs_D0/D0_control_b.npy",
+        "label_path": null,
+        "shape": [
+          10000,
+          16,
+          192
+        ],
+        "dtype": "uint8",
+        "samples_written": 10000,
+        "validation_batches": [
+          {
+            "structured_plaintext_relation": true,
+            "related_key_relation": true,
+            "shared_key_within_group": true,
+            "labels_binary": true,
+            "delta_key_width_valid": true,
+            "delta_state_width_valid": true,
+            "all_passed": true,
+            "batch_index": 0,
+            "control_type": "D0_vs_D0",
+            "control_replica": 1,
+            "source_round": 14,
+            "source_k": 16,
+            "source_seed": 202
+          },
+          {
+            "structured_plaintext_relation": true,
+            "related_key_relation": true,
+            "shared_key_within_group": true,
+            "labels_binary": true,
+            "delta_key_width_valid": true,
+            "delta_state_width_valid": true,
+            "all_passed": true,
+            "batch_index": 1,
+            "control_type": "D0_vs_D0",
+            "control_replica": 1,
+            "source_round": 14,
+            "source_k": 16,
+            "source_seed": 202
+          }
+        ],
+        "all_passed": true,
+        "metadata": {
+          "control_type": "D0_vs_D0",
+          "control_replica": 1,
+          "source_round": 14,
+          "source_k": 16,
+          "source_seed": 202
+        }
+      }
+    },
+    "seconds": 5.699061,
+    "completed_at_utc": "2026-07-17T13:25:04.344928+00:00",
+    "_status": "completed"
+  },
+  "D1_vs_D1": {
+    "status": "completed",
+    "config_hash": "4c217dadacd08c1d557b07d6f45136d0dab3be66898eeb0405d77a9b9071f215",
+    "outputs": [
+      "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/controls/D1_vs_D1/D1_control_a.npy",
+      "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/controls/D1_vs_D1/D1_control_b.npy"
+    ],
+    "result": {
+      "A": {
+        "feature_path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/controls/D1_vs_D1/D1_control_a.npy",
+        "label_path": null,
+        "shape": [
+          10000,
+          16,
+          192
+        ],
+        "dtype": "uint8",
+        "samples_written": 10000,
+        "validation_batches": [
+          {
+            "structured_plaintext_relation": true,
+            "related_key_relation": true,
+            "shared_key_within_group": true,
+            "labels_binary": true,
+            "delta_key_width_valid": true,
+            "delta_state_width_valid": true,
+            "all_passed": true,
+            "batch_index": 0,
+            "control_type": "D1_vs_D1",
+            "control_replica": 0,
+            "source_round": 14,
+            "source_k": 16,
+            "source_seed": 202
+          },
+          {
+            "structured_plaintext_relation": true,
+            "related_key_relation": true,
+            "shared_key_within_group": true,
+            "labels_binary": true,
+            "delta_key_width_valid": true,
+            "delta_state_width_valid": true,
+            "all_passed": true,
+            "batch_index": 1,
+            "control_type": "D1_vs_D1",
+            "control_replica": 0,
+            "source_round": 14,
+            "source_k": 16,
+            "source_seed": 202
+          }
+        ],
+        "all_passed": true,
+        "metadata": {
+          "control_type": "D1_vs_D1",
+          "control_replica": 0,
+          "source_round": 14,
+          "source_k": 16,
+          "source_seed": 202
+        }
+      },
+      "B": {
+        "feature_path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/controls/D1_vs_D1/D1_control_b.npy",
+        "label_path": null,
+        "shape": [
+          10000,
+          16,
+          192
+        ],
+        "dtype": "uint8",
+        "samples_written": 10000,
+        "validation_batches": [
+          {
+            "structured_plaintext_relation": true,
+            "related_key_relation": true,
+            "shared_key_within_group": true,
+            "labels_binary": true,
+            "delta_key_width_valid": true,
+            "delta_state_width_valid": true,
+            "all_passed": true,
+            "batch_index": 0,
+            "control_type": "D1_vs_D1",
+            "control_replica": 1,
+            "source_round": 14,
+            "source_k": 16,
+            "source_seed": 202
+          },
+          {
+            "structured_plaintext_relation": true,
+            "related_key_relation": true,
+            "shared_key_within_group": true,
+            "labels_binary": true,
+            "delta_key_width_valid": true,
+            "delta_state_width_valid": true,
+            "all_passed": true,
+            "batch_index": 1,
+            "control_type": "D1_vs_D1",
+            "control_replica": 1,
+            "source_round": 14,
+            "source_k": 16,
+            "source_seed": 202
+          }
+        ],
+        "all_passed": true,
+        "metadata": {
+          "control_type": "D1_vs_D1",
+          "control_replica": 1,
+          "source_round": 14,
+          "source_k": 16,
+          "source_seed": 202
+        }
+      }
+    },
+    "seconds": 5.640809,
+    "completed_at_utc": "2026-07-17T13:25:10.035034+00:00",
+    "_status": "completed"
+  },
+  "pair_shuffled": {
+    "status": "completed",
+    "config_hash": "da7a817dfccd7f9fb4e750c5a66b9e7058f8693ca5205ba6cf1f504df64eadf6",
+    "outputs": [
+      "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/hight64_rkmp_controls_v1/analysis/hight64/r14/k16/seed202/controls/pair_shuffled/D1_pair_shuffled.npy"
+    ],
+    "result": {
+      "control_type": "pair_shuffled",
+      "control_replica": 0,
+      "shuffle_seed": 6000205,
+      "shape": [
+        10000,
+        16,
+        192
+      ],
+      "marginal_bit_sum_preserved": true,
+      "grouping_effective": true,
+      "source_round": 14,
+      "source_k": 16,
+      "source_seed": 202
+    },
+    "seconds": 2.166905,
+    "completed_at_utc": "2026-07-17T13:25:12.245830+00:00",
+    "_status": "completed"
+  }
+}

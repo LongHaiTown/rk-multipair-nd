@@ -1,0 +1,24 @@
+{
+  "status": "completed",
+  "config_hash": "fef187bcf8d86dddfb7521ad00048e2aebc0ef3fbc77999e91860c16785afa04",
+  "outputs": [
+    "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/lea_rkmp_controls_v1/analysis/lea128/r8/k8/seed202/controls/pair_shuffled/D1_pair_shuffled.npy"
+  ],
+  "result": {
+    "control_type": "pair_shuffled",
+    "control_replica": 0,
+    "shuffle_seed": 6000205,
+    "shape": [
+      10000,
+      8,
+      384
+    ],
+    "marginal_bit_sum_preserved": true,
+    "grouping_effective": true,
+    "source_round": 8,
+    "source_k": 8,
+    "source_seed": 202
+  },
+  "seconds": 2.115209,
+  "completed_at_utc": "2026-07-17T13:28:00.051212+00:00"
+}

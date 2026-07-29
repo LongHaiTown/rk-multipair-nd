@@ -1,0 +1,40 @@
+{
+  "config_schema_version": "rkmp_analysis_data_v2",
+  "study_id": "simeck3264_rkmp_controls_v1",
+  "cipher": {
+    "slug": "simeck3264",
+    "name": "SIMECK-32/64",
+    "module": "cipher.simmeck3264",
+    "encrypt_function": "encrypt",
+    "expected_plain_bits": 32,
+    "expected_key_bits": 64
+  },
+  "delta_p_hex": "0x00000040",
+  "delta_k": {
+    "mode": "single_bit",
+    "bit_index": 57,
+    "indexing": "msb0",
+    "origin": "pre-analysis configuration and delta-K lock-in",
+    "selection_note": "Single-bit related-key perturbation fixed before the main round-by-k experiments. Verify that the cipher module uses the same MSB-first key-bit convention."
+  },
+  "rounds": [8,9,10, 11, 12,13],
+  "k_values": [1, 2, 4, 8, 16, 32],
+  "analysis_seeds": [201, 202, 203],
+  "domains": [
+    {
+      "name": "analysis",
+      "samples_per_class": 10000,
+      "seed_offset": 0
+    }
+  ],
+  "batch_size": 5000,
+  "output_layout": "grouped",
+  "key_mode": "shared",
+  "dtype": "uint8",
+  "encrypt_backend": "numpy",
+  "representation": "delta_C||C||C_star",
+  "validate_protocol": true,
+  "generate_controls": true,
+  "adapter_check": true,
+  "status": "locked"
+}

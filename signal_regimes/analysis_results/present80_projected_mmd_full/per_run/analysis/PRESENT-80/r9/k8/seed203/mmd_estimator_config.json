@@ -1,0 +1,105 @@
+{
+  "analysis_name": "projected_mmd",
+  "estimator_study_id": "present80_projected_mmd_full",
+  "source_study_id": "present80_rkmp_controls_v1",
+  "source_manifest": "/mnt/d/rk-multipair-nd/signal_regimes/analysis_data/present80_rkmp_controls_v1/manifest.csv",
+  "source_row_number": 67,
+  "source_config_hash": "4edc37a5761e740c112ed32ddc392d7dba667445b7293f98953d61bd173eaa59",
+  "estimator_protocol_hash": "771e89cf815df46c8da5ad2ee77b8821252e3e42ae1a5eb861b2a9d4c267d94a",
+  "estimator_job_hash": "a18eda302cf6f065e2ba64d39dfaf8e9d50f8c6756b99dfdcb3a1bfabd754f3e",
+  "metric_schema_version": "projected_mmd_v1",
+  "protocol": {
+    "metric_schema_version": "projected_mmd_v1",
+    "projection": {
+      "max_samples_total": 10000,
+      "pca_components": 16,
+      "pca_solver": "auto",
+      "pca_whiten": false,
+      "random_state": 42,
+      "sample_mode": "head"
+    },
+    "mmd": {
+      "kernel": "rbf",
+      "bandwidth_mode": "median_main_reference",
+      "bandwidth": null,
+      "permutations": 19,
+      "max_samples_per_distribution": 100,
+      "random_state": 42,
+      "bandwidth_reference_max_points": 1000
+    },
+    "mmd_control_reference": "median_observed_D0_vs_D0_and_D1_vs_D1"
+  },
+  "control_paths": {
+    "d1_path": {
+      "path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/present80_rkmp_controls_v1/analysis/present80/r9/k8/seed203/D1_structured.npy",
+      "shape": [
+        10000,
+        8,
+        192
+      ],
+      "dtype": "uint8",
+      "size_bytes": 15360128
+    },
+    "d0_path": {
+      "path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/present80_rkmp_controls_v1/analysis/present80/r9/k8/seed203/D0_null.npy",
+      "shape": [
+        10000,
+        8,
+        192
+      ],
+      "dtype": "uint8",
+      "size_bytes": 15360128
+    },
+    "d0_control_a_path": {
+      "path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/present80_rkmp_controls_v1/analysis/present80/r9/k8/seed203/controls/D0_vs_D0/D0_control_a.npy",
+      "shape": [
+        10000,
+        8,
+        192
+      ],
+      "dtype": "uint8",
+      "size_bytes": 15360128
+    },
+    "d0_control_b_path": {
+      "path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/present80_rkmp_controls_v1/analysis/present80/r9/k8/seed203/controls/D0_vs_D0/D0_control_b.npy",
+      "shape": [
+        10000,
+        8,
+        192
+      ],
+      "dtype": "uint8",
+      "size_bytes": 15360128
+    },
+    "d1_control_a_path": {
+      "path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/present80_rkmp_controls_v1/analysis/present80/r9/k8/seed203/controls/D1_vs_D1/D1_control_a.npy",
+      "shape": [
+        10000,
+        8,
+        192
+      ],
+      "dtype": "uint8",
+      "size_bytes": 15360128
+    },
+    "d1_control_b_path": {
+      "path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/present80_rkmp_controls_v1/analysis/present80/r9/k8/seed203/controls/D1_vs_D1/D1_control_b.npy",
+      "shape": [
+        10000,
+        8,
+        192
+      ],
+      "dtype": "uint8",
+      "size_bytes": 15360128
+    },
+    "pair_shuffled_path": {
+      "path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/present80_rkmp_controls_v1/analysis/present80/r9/k8/seed203/controls/pair_shuffled/D1_pair_shuffled.npy",
+      "shape": [
+        10000,
+        8,
+        192
+      ],
+      "dtype": "uint8",
+      "size_bytes": 15360128
+    }
+  },
+  "created_at_utc": "2026-07-28T10:04:57.004897+00:00"
+}

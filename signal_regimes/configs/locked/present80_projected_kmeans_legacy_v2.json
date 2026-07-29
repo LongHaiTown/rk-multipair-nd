@@ -1,0 +1,13 @@
+{
+  "estimator_study_id": "present80_projected_kmeans_legacy_v2",
+  "source_study_id": "present80_rkmp_legacy_dk_index56_v2",
+  "max_samples_total": 100000,
+  "pca_components": 16,
+  "pca_solver": "auto",
+  "pca_whiten": false,
+  "kmeans_clusters": 2,
+  "kmeans_n_init": 10,
+  "kmeans_max_iter": 300,
+  "random_state": 42,
+  "status": "locked"
+}

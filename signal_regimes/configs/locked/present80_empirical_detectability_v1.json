@@ -1,0 +1,20 @@
+{
+  "estimator_study_id": "present80_empirical_detectability_v1",
+  "source_study_id": "present80_rkmp_controls_v1",
+  "max_samples_total": 100000,
+  "pca_components": 16,
+  "pca_solver": "auto",
+  "pca_whiten": false,
+  "kmeans_clusters": 2,
+  "kmeans_n_init": 10,
+  "kmeans_max_iter": 300,
+  "random_state": 42,
+  "null_repetitions": 5,
+  "stability_repetitions": 10,
+  "mmd_kernel": "rbf",
+  "mmd_bandwidth_mode": "median",
+  "mmd_bandwidth": null,
+  "mmd_permutations": 200,
+  "mmd_max_samples_per_distribution": 500,
+  "status": "locked"
+}

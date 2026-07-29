@@ -104,3 +104,6 @@ desktop.ini
 
 # GPU/CUDA cache
 .nvidia/
+
+# Projected Data 
+signal_regimes/analysis_data

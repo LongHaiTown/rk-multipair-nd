@@ -1,0 +1,114 @@
+{
+  "status": "completed",
+  "config_hash": "bf95cea2983ada73d19e3026a7e24ca9c55dac519c543be291d40efca77d6c57",
+  "outputs": [
+    "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/lea_rkmp_controls_v1/analysis/lea128/r9/k1/seed203/controls/D1_vs_D1/D1_control_a.npy",
+    "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/lea_rkmp_controls_v1/analysis/lea128/r9/k1/seed203/controls/D1_vs_D1/D1_control_b.npy"
+  ],
+  "result": {
+    "A": {
+      "feature_path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/lea_rkmp_controls_v1/analysis/lea128/r9/k1/seed203/controls/D1_vs_D1/D1_control_a.npy",
+      "label_path": null,
+      "shape": [
+        10000,
+        1,
+        384
+      ],
+      "dtype": "uint8",
+      "samples_written": 10000,
+      "validation_batches": [
+        {
+          "structured_plaintext_relation": true,
+          "related_key_relation": true,
+          "shared_key_within_group": true,
+          "labels_binary": true,
+          "delta_key_width_valid": true,
+          "delta_state_width_valid": true,
+          "all_passed": true,
+          "batch_index": 0,
+          "control_type": "D1_vs_D1",
+          "control_replica": 0,
+          "source_round": 9,
+          "source_k": 1,
+          "source_seed": 203
+        },
+        {
+          "structured_plaintext_relation": true,
+          "related_key_relation": true,
+          "shared_key_within_group": true,
+          "labels_binary": true,
+          "delta_key_width_valid": true,
+          "delta_state_width_valid": true,
+          "all_passed": true,
+          "batch_index": 1,
+          "control_type": "D1_vs_D1",
+          "control_replica": 0,
+          "source_round": 9,
+          "source_k": 1,
+          "source_seed": 203
+        }
+      ],
+      "all_passed": true,
+      "metadata": {
+        "control_type": "D1_vs_D1",
+        "control_replica": 0,
+        "source_round": 9,
+        "source_k": 1,
+        "source_seed": 203
+      }
+    },
+    "B": {
+      "feature_path": "/mnt/d/#PROJECT_RKNDIncECA/Related-key-mcp-attention-Inception-based-ND/analysis_data/lea_rkmp_controls_v1/analysis/lea128/r9/k1/seed203/controls/D1_vs_D1/D1_control_b.npy",
+      "label_path": null,
+      "shape": [
+        10000,
+        1,
+        384
+      ],
+      "dtype": "uint8",
+      "samples_written": 10000,
+      "validation_batches": [
+        {
+          "structured_plaintext_relation": true,
+          "related_key_relation": true,
+          "shared_key_within_group": true,
+          "labels_binary": true,
+          "delta_key_width_valid": true,
+          "delta_state_width_valid": true,
+          "all_passed": true,
+          "batch_index": 0,
+          "control_type": "D1_vs_D1",
+          "control_replica": 1,
+          "source_round": 9,
+          "source_k": 1,
+          "source_seed": 203
+        },
+        {
+          "structured_plaintext_relation": true,
+          "related_key_relation": true,
+          "shared_key_within_group": true,
+          "labels_binary": true,
+          "delta_key_width_valid": true,
+          "delta_state_width_valid": true,
+          "all_passed": true,
+          "batch_index": 1,
+          "control_type": "D1_vs_D1",
+          "control_replica": 1,
+          "source_round": 9,
+          "source_k": 1,
+          "source_seed": 203
+        }
+      ],
+      "all_passed": true,
+      "metadata": {
+        "control_type": "D1_vs_D1",
+        "control_replica": 1,
+        "source_round": 9,
+        "source_k": 1,
+        "source_seed": 203
+      }
+    }
+  },
+  "seconds": 0.463323,
+  "completed_at_utc": "2026-07-17T13:33:19.904328+00:00"
+}

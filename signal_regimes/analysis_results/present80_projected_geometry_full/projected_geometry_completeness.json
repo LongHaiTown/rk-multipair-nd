@@ -1,0 +1,13 @@
+{
+  "analysis_name": "projected_geometry",
+  "expected_jobs": 90,
+  "completed_selected_jobs": 90,
+  "expected_long_rows": 360,
+  "missing_jobs": [],
+  "complete": true,
+  "generated_at_utc": "2026-07-28T10:16:58.462237+00:00",
+  "completed_this_execution": 90,
+  "skipped_this_execution": 0,
+  "failed_this_execution": 0,
+  "long_rows_available": 360
+}

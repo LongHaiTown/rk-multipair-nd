@@ -1,0 +1,247 @@
+{
+  "metadata": {
+    "study_id": "present80_rkmp_controls_v1",
+    "domain": "analysis",
+    "cipher": "PRESENT-80",
+    "round": 7,
+    "k": 4,
+    "seed": 201
+  },
+  "projection": {
+    "projection_id": "02ef7485be6b7dc71ac2d05875a91dddab2faee63f2de34f5027d4ca0a7f93f3",
+    "sample_selection_hash": "e17494764a0b70d71507941c0870a216154a356e6eed2a4bcdcd75a1fdd00e85",
+    "fit_scope": "pooled_main_D1_D0",
+    "reuse_for_controls": true,
+    "pca_components": 16,
+    "explained_variance_ratio": [
+      0.005814366042613983,
+      0.0033281235955655575,
+      0.0032801975030452013,
+      0.0032182703725993633,
+      0.003104827366769314,
+      0.0026983432471752167,
+      0.002629658440127969,
+      0.0025988693814724684,
+      0.002539536915719509,
+      0.002406700747087598,
+      0.002377290278673172,
+      0.002351058181375265,
+      0.002244376577436924,
+      0.0022335967514663935,
+      0.0021962332539260387,
+      0.002183445729315281
+    ],
+    "explained_variance_sum": 0.04520489275455475,
+    "selected_count_per_dataset": 5000,
+    "raw_feature_dim": 768,
+    "stored_shapes": {
+      "d1": [
+        10000,
+        4,
+        192
+      ],
+      "d0": [
+        10000,
+        4,
+        192
+      ],
+      "d0_control_a": [
+        10000,
+        4,
+        192
+      ],
+      "d0_control_b": [
+        10000,
+        4,
+        192
+      ],
+      "d1_control_a": [
+        10000,
+        4,
+        192
+      ],
+      "d1_control_b": [
+        10000,
+        4,
+        192
+      ],
+      "pair_shuffled": [
+        10000,
+        4,
+        192
+      ]
+    },
+    "stored_dtypes": {
+      "d1": "uint8",
+      "d0": "uint8",
+      "d0_control_a": "uint8",
+      "d0_control_b": "uint8",
+      "d1_control_a": "uint8",
+      "d1_control_b": "uint8",
+      "pair_shuffled": "uint8"
+    },
+    "pair_shuffle_k1_identical": null
+  },
+  "geometry_protocol": {
+    "kmeans_clusters": 2,
+    "kmeans_n_init": 10,
+    "kmeans_max_iter": 300,
+    "stability_repetitions": 3,
+    "random_state": 42
+  },
+  "control_reference": {
+    "silhouette_control_values": [
+      0.04280494526028633,
+      0.07893136888742447
+    ],
+    "silhouette_control_median": 0.0608681570738554,
+    "silhouette_control_reference": "median_observed_D0_vs_D0_and_D1_vs_D1",
+    "note": "K-Means initialization repetitions are used only for stability, not as an empirical null distribution."
+  },
+  "comparisons": {
+    "D1_vs_D0": {
+      "metadata": {
+        "study_id": "present80_rkmp_controls_v1",
+        "domain": "analysis",
+        "cipher": "PRESENT-80",
+        "round": 7,
+        "k": 4,
+        "seed": 201,
+        "control_type": "D1_vs_D0"
+      },
+      "kmeans": {
+        "silhouette_kmeans": 0.12968558073043823,
+        "kmeans_inertia": 78382.6484375,
+        "kmeans_accuracy_raw": 0.8899,
+        "kmeans_aligned_accuracy": 0.8899,
+        "kmeans_adjusted_rand": 0.6080498927939423,
+        "kmeans_n_iter": 7,
+        "cluster_counts": {
+          "0": 5819,
+          "1": 4181
+        },
+        "n_samples_per_side": 5000,
+        "silhouette_control_median": 0.0608681570738554,
+        "silhouette_null_median": 0.0608681570738554,
+        "silhouette_excess_null": 0.06881742365658283
+      },
+      "stability": {
+        "kmeans_stability_ari": 0.9978661540563981,
+        "kmeans_stability_ari_median": 0.9975994421209454,
+        "kmeans_stability_ari_min": 0.9971996443827102,
+        "stability_pair_count": 3
+      }
+    },
+    "D0_vs_D0": {
+      "metadata": {
+        "study_id": "present80_rkmp_controls_v1",
+        "domain": "analysis",
+        "cipher": "PRESENT-80",
+        "round": 7,
+        "k": 4,
+        "seed": 201,
+        "control_type": "D0_vs_D0"
+      },
+      "kmeans": {
+        "silhouette_kmeans": 0.04280494526028633,
+        "kmeans_inertia": 38365.29296875,
+        "kmeans_accuracy_raw": 0.4985,
+        "kmeans_aligned_accuracy": 0.5015000000000001,
+        "kmeans_adjusted_rand": -9.10032231998728e-05,
+        "kmeans_n_iter": 48,
+        "cluster_counts": {
+          "0": 4937,
+          "1": 5063
+        },
+        "n_samples_per_side": 5000,
+        "silhouette_control_median": 0.0608681570738554,
+        "silhouette_null_median": 0.0608681570738554,
+        "silhouette_excess_null": -0.01806321181356907
+      },
+      "stability": {
+        "kmeans_stability_ari": 0.3202568244124484,
+        "kmeans_stability_ari_median": 0.3243765949199435,
+        "kmeans_stability_ari_min": 0.26825082455095184,
+        "stability_pair_count": 3
+      }
+    },
+    "D1_vs_D1": {
+      "metadata": {
+        "study_id": "present80_rkmp_controls_v1",
+        "domain": "analysis",
+        "cipher": "PRESENT-80",
+        "round": 7,
+        "k": 4,
+        "seed": 201,
+        "control_type": "D1_vs_D1"
+      },
+      "kmeans": {
+        "silhouette_kmeans": 0.07893136888742447,
+        "kmeans_inertia": 87562.84375,
+        "kmeans_accuracy_raw": 0.4989,
+        "kmeans_aligned_accuracy": 0.5011,
+        "kmeans_adjusted_rand": -7.618210955879315e-05,
+        "kmeans_n_iter": 22,
+        "cluster_counts": {
+          "0": 2821,
+          "1": 7179
+        },
+        "n_samples_per_side": 5000,
+        "silhouette_control_median": 0.0608681570738554,
+        "silhouette_null_median": 0.0608681570738554,
+        "silhouette_excess_null": 0.01806321181356907
+      },
+      "stability": {
+        "kmeans_stability_ari": 0.9964058695233206,
+        "kmeans_stability_ari_median": 0.995853617540751,
+        "kmeans_stability_ari_min": 0.9958533321072774,
+        "stability_pair_count": 3
+      }
+    },
+    "pair_shuffled": {
+      "metadata": {
+        "study_id": "present80_rkmp_controls_v1",
+        "domain": "analysis",
+        "cipher": "PRESENT-80",
+        "round": 7,
+        "k": 4,
+        "seed": 201,
+        "control_type": "pair_shuffled"
+      },
+      "kmeans": {
+        "silhouette_kmeans": 0.12960919737815857,
+        "kmeans_inertia": 69857.84375,
+        "kmeans_accuracy_raw": 0.8828,
+        "kmeans_aligned_accuracy": 0.8828,
+        "kmeans_adjusted_rand": 0.5861033192998192,
+        "kmeans_n_iter": 9,
+        "cluster_counts": {
+          "0": 5904,
+          "1": 4096
+        },
+        "n_samples_per_side": 5000,
+        "silhouette_control_median": 0.0608681570738554,
+        "silhouette_null_median": 0.0608681570738554,
+        "silhouette_excess_null": 0.06874104030430317
+      },
+      "stability": {
+        "kmeans_stability_ari": 0.9959996850440297,
+        "kmeans_stability_ari_median": 0.9967987943741922,
+        "kmeans_stability_ari_min": 0.9944013607443235,
+        "stability_pair_count": 3
+      }
+    }
+  },
+  "runtime": {
+    "analysis_seconds": 11.889679,
+    "completed_at_utc": "2026-07-28T10:04:40.242140+00:00"
+  },
+  "projection_protocol": {
+    "max_samples_total": 10000,
+    "pca_components": 16,
+    "pca_solver": "auto",
+    "pca_whiten": false,
+    "random_state": 42,
+    "sample_mode": "head"
+  }
+}

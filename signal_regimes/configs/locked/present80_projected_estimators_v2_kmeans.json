@@ -1,0 +1,20 @@
+{
+  "estimator_study_id": "present80_projected_estimators_v2_kmeans",
+  "source_study_id": "present80_rkmp_positive_control_r5_r7_v1",
+  "pca_components": 16,
+  "pca_solver": "randomized",
+  "train_fraction": 0.5,
+  "max_samples_per_class": 5000,
+  "silhouette_sample_size": 2000,
+  "kmeans_clusters": 2,
+  "kmeans_n_init": 20,
+  "kmeans_max_iter": 300,
+  "n_permutations": 200,
+  "n_bootstrap": 200,
+  "n_bootstrap_silhouette": 0,
+  "confidence_level": 0.95,
+  "base_analysis_seed": 40001,
+  "save_projection": false,
+  "save_null_distributions": false,
+  "status": "locked"
+}

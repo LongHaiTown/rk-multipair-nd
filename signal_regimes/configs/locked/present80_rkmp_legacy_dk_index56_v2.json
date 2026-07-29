@@ -1,0 +1,43 @@
+{
+  "study_id": "present80_rkmp_legacy_dk_index56_v2",
+  "cipher": "present80",
+  "delta_p_hex": "0x0000000000000080",
+  "delta_k": {
+    "mode": "single_bit",
+    "bit_index": 56,
+    "indexing": "msb0",
+    "origin": "legacy_array_index_56",
+    "resolved_integer_bit_lsb0": 23,
+    "resolved_hex": "0x00000000000000800000"
+  },
+  "rounds": [
+    7,8,9
+  ],
+  "k_values": [
+    1,
+
+    8,
+
+    32
+  ],
+  "analysis_seeds": [
+    201
+
+  ],
+  "domains": [
+    {
+      "name": "analysis",
+      "samples_per_class": 10000,
+      "seed_offset": 0
+    }
+  ],
+  "batch_size": 5000,
+  "output_layout": "grouped",
+  "key_mode": "shared",
+  "encrypt_backend": "numpy",
+  "dtype": "uint8",
+  "null_seed_offset": 1000003,
+  "validate_protocol": true,
+  "representation": "delta_C||C||C_star",
+  "status": "locked"
+}

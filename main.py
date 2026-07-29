@@ -2,6 +2,9 @@ from train_nets import (
     update_checkpoint_in_callbacks, select_best_delta_key,
     integer_to_binary_array, NDCMultiPairGenerator, make_model_inception, callbacks
 )
+from YuanWang_RK_SENet import make_multipair_senet
+
+
 import argparse
 import importlib
 import numpy as np
@@ -212,7 +215,7 @@ def run():
 
     CHUNK_SIZE    = int(args.chunk_size)
 
-    model = make_model_inception(pairs=pairs, plain_bits=plain_bits)
+    model = make_multipair_senet(pairs=pairs, plain_bits=plain_bits)
     optimizer = tf.keras.optimizers.Adam(amsgrad=True)
     model.compile(optimizer=optimizer, loss='mse', metrics=['acc'])
 

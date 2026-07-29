@@ -1,0 +1,25 @@
+{
+  "estimator_study_id": "present80_projected_mmd_full",
+  "source_study_id": "present80_rkmp_controls_v1",
+  "metric_schema_version": "projected_mmd_v1",
+  "projection": {
+    "max_samples_total": 10000,
+    "pca_components": 16,
+    "pca_solver": "auto",
+    "pca_whiten": false,
+    "random_state": 42,
+    "sample_mode": "head"
+  },
+  "mmd": {
+    "kernel": "rbf",
+    "bandwidth_mode": "median_main_reference",
+    "bandwidth": null,
+    "permutations": 19,
+    "max_samples_per_distribution": 100,
+    "random_state": 42,
+    "bandwidth_reference_max_points": 1000
+  },
+  "mmd_control_reference": "median_observed_D0_vs_D0_and_D1_vs_D1",
+  "status": "locked",
+  "notes": "Split from present80_empirical_detectability_full.json. One PCA and one RBF bandwidth are reused across main and control comparisons within each round-k-seed job."
+}

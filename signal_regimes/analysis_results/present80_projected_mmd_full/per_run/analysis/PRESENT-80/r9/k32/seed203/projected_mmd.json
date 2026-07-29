@@ -1,0 +1,208 @@
+{
+  "metadata": {
+    "study_id": "present80_rkmp_controls_v1",
+    "domain": "analysis",
+    "cipher": "PRESENT-80",
+    "round": 9,
+    "k": 32,
+    "seed": 203
+  },
+  "projection": {
+    "projection_id": "6bd1d4889194dabb005e89d8ae50d5b854176567b593e9cf7870831bfa2b54b5",
+    "sample_selection_hash": "e17494764a0b70d71507941c0870a216154a356e6eed2a4bcdcd75a1fdd00e85",
+    "fit_scope": "pooled_main_D1_D0",
+    "reuse_for_controls": true,
+    "pca_components": 16,
+    "explained_variance_ratio": [
+      0.000491634476929903,
+      0.00048588094068691134,
+      0.0004849639954045415,
+      0.00048312920262105763,
+      0.00048023313865996897,
+      0.00047882989747449756,
+      0.00047743620234541595,
+      0.000476271117804572,
+      0.0004756744601763785,
+      0.0004736569826491177,
+      0.0004715674731414765,
+      0.0004700026474893093,
+      0.0004688183544203639,
+      0.00046848657075315714,
+      0.0004675639793276787,
+      0.0004662071878556162
+    ],
+    "explained_variance_sum": 0.007620356511324644,
+    "selected_count_per_dataset": 5000,
+    "raw_feature_dim": 6144,
+    "stored_shapes": {
+      "d1": [
+        10000,
+        32,
+        192
+      ],
+      "d0": [
+        10000,
+        32,
+        192
+      ],
+      "d0_control_a": [
+        10000,
+        32,
+        192
+      ],
+      "d0_control_b": [
+        10000,
+        32,
+        192
+      ],
+      "d1_control_a": [
+        10000,
+        32,
+        192
+      ],
+      "d1_control_b": [
+        10000,
+        32,
+        192
+      ],
+      "pair_shuffled": [
+        10000,
+        32,
+        192
+      ]
+    },
+    "stored_dtypes": {
+      "d1": "uint8",
+      "d0": "uint8",
+      "d0_control_a": "uint8",
+      "d0_control_b": "uint8",
+      "d1_control_a": "uint8",
+      "d1_control_b": "uint8",
+      "pair_shuffled": "uint8"
+    },
+    "pair_shuffle_k1_identical": null
+  },
+  "mmd_protocol": {
+    "kernel": "rbf",
+    "bandwidth_mode": "median_main_reference",
+    "bandwidth": null,
+    "permutations": 19,
+    "max_samples_per_distribution": 100,
+    "random_state": 42,
+    "bandwidth_reference_max_points": 1000
+  },
+  "control_reference": {
+    "mmd_control_values": [
+      0.004367843735963106,
+      0.0038948908913880587
+    ],
+    "mmd_control_null_median": 0.004131367313675582,
+    "mmd_control_reference": "median_observed_D0_vs_D0_and_D1_vs_D1"
+  },
+  "comparisons": {
+    "D1_vs_D0": {
+      "metadata": {
+        "study_id": "present80_rkmp_controls_v1",
+        "domain": "analysis",
+        "cipher": "PRESENT-80",
+        "round": 9,
+        "k": 32,
+        "seed": 203,
+        "control_type": "D1_vs_D0"
+      },
+      "mmd": {
+        "mmd2": 0.0069443341344594955,
+        "mmd_permutation_p": 0.8,
+        "mmd_permutation_null_median": 0.007492641918361187,
+        "mmd_permutation_null_q95": 0.00977461021393537,
+        "mmd_kernel": "rbf",
+        "mmd_bandwidth": 4.761184215545654,
+        "mmd_bandwidth_scope": "shared_main_reference",
+        "mmd_samples_per_distribution": 100,
+        "mmd_control_null_median": 0.004131367313675582,
+        "mmd_excess_null": 0.002812966820783913
+      }
+    },
+    "D0_vs_D0": {
+      "metadata": {
+        "study_id": "present80_rkmp_controls_v1",
+        "domain": "analysis",
+        "cipher": "PRESENT-80",
+        "round": 9,
+        "k": 32,
+        "seed": 203,
+        "control_type": "D0_vs_D0"
+      },
+      "mmd": {
+        "mmd2": 0.004367843735963106,
+        "mmd_permutation_p": 0.35,
+        "mmd_permutation_null_median": 0.003554315771907568,
+        "mmd_permutation_null_q95": 0.005420824466273186,
+        "mmd_kernel": "rbf",
+        "mmd_bandwidth": 4.761184215545654,
+        "mmd_bandwidth_scope": "shared_main_reference",
+        "mmd_samples_per_distribution": 100,
+        "mmd_control_null_median": 0.004131367313675582,
+        "mmd_excess_null": 0.00023647642228752375
+      }
+    },
+    "D1_vs_D1": {
+      "metadata": {
+        "study_id": "present80_rkmp_controls_v1",
+        "domain": "analysis",
+        "cipher": "PRESENT-80",
+        "round": 9,
+        "k": 32,
+        "seed": 203,
+        "control_type": "D1_vs_D1"
+      },
+      "mmd": {
+        "mmd2": 0.0038948908913880587,
+        "mmd_permutation_p": 0.25,
+        "mmd_permutation_null_median": 0.0033073844388127327,
+        "mmd_permutation_null_q95": 0.005333269108086823,
+        "mmd_kernel": "rbf",
+        "mmd_bandwidth": 4.761184215545654,
+        "mmd_bandwidth_scope": "shared_main_reference",
+        "mmd_samples_per_distribution": 100,
+        "mmd_control_null_median": 0.004131367313675582,
+        "mmd_excess_null": -0.00023647642228752375
+      }
+    },
+    "pair_shuffled": {
+      "metadata": {
+        "study_id": "present80_rkmp_controls_v1",
+        "domain": "analysis",
+        "cipher": "PRESENT-80",
+        "round": 9,
+        "k": 32,
+        "seed": 203,
+        "control_type": "pair_shuffled"
+      },
+      "mmd": {
+        "mmd2": 0.030319830402731895,
+        "mmd_permutation_p": 0.05,
+        "mmd_permutation_null_median": 0.005649726837873459,
+        "mmd_permutation_null_q95": 0.011004920862615107,
+        "mmd_kernel": "rbf",
+        "mmd_bandwidth": 4.761184215545654,
+        "mmd_bandwidth_scope": "shared_main_reference",
+        "mmd_samples_per_distribution": 100,
+        "mmd_control_null_median": 0.004131367313675582,
+        "mmd_excess_null": 0.026188463089056313
+      }
+    }
+  },
+  "runtime": {
+    "analysis_seconds": 0.033433,
+    "completed_at_utc": "2026-07-28T10:05:30.899078+00:00"
+  },
+  "projection_protocol": {
+    "max_samples_total": 10000,
+    "pca_components": 16,
+    "pca_solver": "auto",
+    "pca_whiten": false,
+    "random_state": 42,
+    "sample_mode": "head"
+  }
+}
